@@ -74,15 +74,12 @@ export interface ReportUpdateStateReportRoundedState extends Year, Month {
 
 export interface ReportRoundMinutes extends Year, Month, MinutesPassed {
   reportRoundedState:
-    | ReportRoundedState.ROUNDED_UP
-    | ReportRoundedState.ROUNDED_DOWN;
+    ReportRoundedState.ROUNDED_UP | ReportRoundedState.ROUNDED_DOWN;
   title: string;
 }
 
 export interface ReportPassRemainingHoursInput
-  extends Year,
-    Month,
-    MinutesPassed {
+  extends Year, Month, MinutesPassed {
   titleNext: string;
   titlePrev: string;
 }

@@ -1,16 +1,15 @@
-import Constants from 'expo-constants';
 import * as SplashScreen from 'expo-splash-screen';
-import React from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
 
 type Props = {
-  children: JSX.Element;
+  children: React.ReactNode;
   image: string;
+  backgroundColor: string;
 };
 
 const AnimatedSplashScreen: React.FC<Props> = (props) => {
-  const { children, image } = props;
+  const { children, image, backgroundColor } = props;
   const animation = useMemo(() => new Animated.Value(1), []);
   const [isAppReady, setAppReady] = useState(false);
   const [isSplashAnimationComplete, setAnimationComplete] = useState(false);
@@ -37,16 +36,23 @@ const AnimatedSplashScreen: React.FC<Props> = (props) => {
     }
   }, []);
 
+  // Without a splash image there is nothing to wait for.
+  useEffect(() => {
+    if (!image) {
+      onImageLoaded();
+    }
+  }, [image, onImageLoaded]);
+
   return (
     <View style={{ flex: 1 }}>
       {isAppReady && children}
       {!isSplashAnimationComplete && (
         <Animated.View
-          pointerEvents="none"
           style={[
             StyleSheet.absoluteFill,
             {
-              backgroundColor: Constants.manifest?.splash?.backgroundColor,
+              pointerEvents: 'none',
+              backgroundColor,
               opacity: animation,
             },
           ]}
@@ -55,8 +61,8 @@ const AnimatedSplashScreen: React.FC<Props> = (props) => {
             style={{
               width: '100%',
               height: '100%',
-              resizeMode: Constants.manifest?.splash?.resizeMode || 'contain',
             }}
+            resizeMode="contain"
             onLoadEnd={onImageLoaded}
             fadeDuration={0}
             source={{ uri: image }}

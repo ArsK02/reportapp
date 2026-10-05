@@ -1,17 +1,13 @@
 import React from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useTheme } from '@shopify/restyle';
 import { useTranslation } from 'react-i18next';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { WebView } from 'react-native-webview';
 
-import ScreenSafeAreaContainer from '../../components/ScreenSafeAreaContainer';
-import Theme from '../../theme';
-import { SettingsStackParamList } from './SettingsStack';
+import ScreenSafeAreaContainer from '@/components/ScreenSafeAreaContainer';
+import Theme from '@/theme';
 
-type Props = NativeStackScreenProps<SettingsStackParamList, 'PayPal'>;
-
-const PayPalScreen: React.FC<Props> = () => {
+const PayPalScreen: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t, i18n } = useTranslation();
   const theme = useTheme<Theme>();

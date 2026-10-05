@@ -12,8 +12,7 @@ import {
   ReportUpdateStateReportRoundedState,
 } from '../../models';
 
-import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'expo-crypto';
 
 import { ReportsState } from './reportsState';
 
@@ -31,7 +30,7 @@ export const reportsSlice = createSlice({
       const payload = action.payload;
 
       const newReport: ReportSaved = {
-        id: uuidv4(),
+        id: randomUUID(),
         ...payload,
       };
 

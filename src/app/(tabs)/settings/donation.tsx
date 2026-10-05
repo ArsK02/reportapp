@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
   StyleSheet,
   View,
@@ -10,27 +9,30 @@ import {
 } from 'react-native';
 import { useTheme } from '@shopify/restyle';
 import { useTranslation } from 'react-i18next';
-import Purchases, { PurchasesOffering } from 'react-native-purchases';
+import { router } from 'expo-router';
+import Purchases, {
+  LOG_LEVEL,
+  PurchasesStoreProduct,
+} from 'react-native-purchases';
 
-import { SettingsStackParamList } from './SettingsStack';
-import Theme from '../../theme';
-import ScreenSafeAreaContainer from '../../components/ScreenSafeAreaContainer';
-import ScreenHeader from '../../components/ScreenHeader';
-import MainButton from '../../components/buttons/MainButton';
-import BottomSheetModalComp from '../../components/BottomSheetModalComp';
+import Theme from '@/theme';
+import ScreenSafeAreaContainer from '@/components/ScreenSafeAreaContainer';
+import ScreenHeader from '@/components/ScreenHeader';
+import MainButton from '@/components/buttons/MainButton';
+import BottomSheetModalComp from '@/components/BottomSheetModalComp';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import AnimatedLottieView from 'lottie-react-native';
 
 const IOS_API_KEY: any = process.env.EXPO_PUBLIC_REVENUEC_IOS_API;
 
-type Props = NativeStackScreenProps<SettingsStackParamList, 'Donation'>;
-
-const DonationScreen: React.FC<Props> = ({ navigation }) => {
+const DonationScreen: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t, i18n } = useTranslation();
   const theme = useTheme<Theme>();
 
-  const [purchaseProducts, setPurchaseProducts] = useState([]);
+  const [purchaseProducts, setPurchaseProducts] = useState<
+    PurchasesStoreProduct[]
+  >([]);
   // const [currentOffering, setCurrentOffering] =
   //   useState<PurchasesOffering | null>(null);
 
@@ -47,14 +49,14 @@ const DonationScreen: React.FC<Props> = ({ navigation }) => {
         setPurchaseProducts(prods);
       };
 
-      Purchases.setDebugLogsEnabled(true);
+      Purchases.setLogLevel(LOG_LEVEL.DEBUG);
 
       setup().catch(console.log);
     }
   }, []);
 
-  const iosPurchase = async (id: string) => {
-    const purchaseMade = await Purchases.purchaseProduct(id);
+  const iosPurchase = async (product: PurchasesStoreProduct) => {
+    const purchaseMade = await Purchases.purchaseStoreProduct(product);
     // const purchaseMade = await Purchases.purchasePackage();
 
     if (purchaseMade?.productIdentifier) {
@@ -67,7 +69,7 @@ const DonationScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   // BOTTOM SHEET REF
-  const animation = useRef(null);
+  const animation = useRef<AnimatedLottieView>(null);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ['25%'], []);
 
@@ -86,7 +88,7 @@ const DonationScreen: React.FC<Props> = ({ navigation }) => {
           <MainButton
             text={t('Contribute')}
             icon="heart"
-            onPress={() => navigation?.navigate('PayPal')}
+            onPress={() => router.push('/settings/paypal')}
             style={styles(theme).button}
             iconColor="white"
             textColor="white"
@@ -97,11 +99,11 @@ const DonationScreen: React.FC<Props> = ({ navigation }) => {
         <>
           {purchaseProducts?.length ? (
             <View style={styles(theme).paymentContainer}>
-              {purchaseProducts
-                .sort((a: any, b: any) => a.price - b.price)
-                .map((item: any, index: number) => (
+              {[...purchaseProducts]
+                .sort((a, b) => a.price - b.price)
+                .map((item, index) => (
                   <TouchableOpacity
-                    onPress={() => iosPurchase(item.identifier)}
+                    onPress={() => iosPurchase(item)}
                     style={[
                       styles(theme).paymentCard,
                       index !== purchaseProducts.length - 1 &&
@@ -146,7 +148,7 @@ const DonationScreen: React.FC<Props> = ({ navigation }) => {
             }}
             ref={animation}
             style={styles(theme).sheetAnimatedIcon}
-            source={require('../../../assets/lottie/thankYou.json')}
+            source={require('../../../../assets/lottie/thankYou.json')}
           />
         </View>
       </BottomSheetModalComp>

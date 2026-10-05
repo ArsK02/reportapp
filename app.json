@@ -2,44 +2,27 @@
   "expo": {
     "name": "Report App",
     "slug": "report-app",
+    "scheme": "reportapp",
     "version": "2.0.0",
     "owner": "Arsen Kylnyk",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff",
-      "dark": {
-        "image": "./assets/splash-dark.png",
-        "resizeMode": "contain",
-        "backgroundColor": "#000000"
-      }
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.reportapp.app",
-      "splash": {
-        "image": "./assets/splash.png",
-        "resizeMode": "contain",
-        "backgroundColor": "#ffffff",
-        "dark": {
-          "image": "./assets/splash-dark.png",
-          "resizeMode": "contain",
-          "backgroundColor": "#000000"
-        }
-      },
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true,
-        "CFBundleLocalizations" : ["en, es, ru, uk"],
-        "CFBundleDevelopmentRegion" : "en"
+        "CFBundleLocalizations": [
+          "en",
+          "es",
+          "ru",
+          "uk"
+        ],
+        "CFBundleDevelopmentRegion": "en"
       }
     },
     "android": {
@@ -54,10 +37,10 @@
       "favicon": "./assets/favicon.png"
     },
     "locales": {
-      "en": "./localization/en.js",
-      "es": "./localization/es.js",
-      "ru": "./localization/ru.js",
-      "uk": "./localization/uk.js"
+      "en": "./localization/native/en.json",
+      "es": "./localization/native/es.json",
+      "ru": "./localization/native/ru.json",
+      "uk": "./localization/native/uk.json"
     },
     "extra": {
       "eas": {
@@ -65,7 +48,24 @@
       }
     },
     "plugins": [
-      "expo-localization"
-    ]
+      "expo-router",
+      "expo-localization",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 120,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff",
+          "dark": {
+            "image": "./assets/splash-icon-dark.png",
+            "backgroundColor": "#000000"
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
   }
 }

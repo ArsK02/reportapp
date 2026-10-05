@@ -1,34 +1,29 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTheme } from '@shopify/restyle';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, FlatList, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocalSearchParams } from 'expo-router';
 
-import MonthReportItem from '../../components/month-report/MonthReportItem';
-import ReportForm, {
-  ReportFormRef,
-} from '../../components/report-form/ReportForm';
-import ScreenHeader from '../../components/ScreenHeader';
-import ScreenSafeAreaContainer from '../../components/ScreenSafeAreaContainer';
-import { ReportSaved } from '../../models';
+import MonthReportItem from '@/components/month-report/MonthReportItem';
+import ReportForm, { ReportFormRef } from '@/components/report-form/ReportForm';
+import ScreenHeader from '@/components/ScreenHeader';
+import ScreenSafeAreaContainer from '@/components/ScreenSafeAreaContainer';
+import { ReportSaved } from '@/models';
 import {
   selectMinutesPassedAlert,
   selectReportsByMonthView,
-} from '../../store/reports/reportsSelectors';
-import { doPassRemainingHours } from '../../store/reports/reportsService';
-import Theme from '../../theme';
-import { HomeStackParamList } from './HomeStack';
+} from '@/store/reports/reportsSelectors';
+import { doPassRemainingHours } from '@/store/reports/reportsService';
+import Theme from '@/theme';
 
-type Props = NativeStackScreenProps<HomeStackParamList, 'MonthReport'>;
-
-const MonthReportScreen: React.FC<Props> = (props) => {
-  const { route } = props;
+const MonthReportScreen: React.FC = () => {
+  const params = useLocalSearchParams<{ year: string; month: string }>();
 
   const dispatch = useDispatch();
 
-  const year = route.params.year;
-  const month = route.params.month;
+  const year = Number(params.year);
+  const month = Number(params.month);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [t, i18n] = useTranslation();

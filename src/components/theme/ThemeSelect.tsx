@@ -33,4 +33,6 @@ const ThemeSelect: React.FC<Props> = forwardRef((props, ref) => {
   );
 });
 
+ThemeSelect.displayName = 'ThemeSelect';
+
 export default ThemeSelect;

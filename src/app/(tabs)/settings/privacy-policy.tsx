@@ -2,17 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useTheme } from '@shopify/restyle';
 import { useTranslation } from 'react-i18next';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import ScreenSafeAreaContainer from '../../components/ScreenSafeAreaContainer';
-import Theme from '../../theme';
-import { SettingsStackParamList } from './SettingsStack';
-import ScreenHeader from '../../components/ScreenHeader';
+import ScreenSafeAreaContainer from '@/components/ScreenSafeAreaContainer';
+import Theme from '@/theme';
+import ScreenHeader from '@/components/ScreenHeader';
 import { ScrollView } from 'react-native-gesture-handler';
 
-type Props = NativeStackScreenProps<SettingsStackParamList, 'PrivacyPolicy'>;
-
-const PrivacyPolicyScreen: React.FC<Props> = () => {
+const PrivacyPolicyScreen: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t, i18n } = useTranslation();
   const theme = useTheme<Theme>();
@@ -57,7 +53,7 @@ const PrivacyPolicyScreen: React.FC<Props> = () => {
             statistics. # **Cookies** Cookies are files with a small amount of
             data that are commonly used as anonymous unique identifiers. These
             are sent to your browser from the websites that you visit and are
-            stored on your device's internal memory. This Service does not use
+            stored on your device’s internal memory. This Service does not use
             these “cookies” explicitly. However, the app may use third-party
             code and libraries that use “cookies” to collect information and
             improve their services. You have the option to either accept or

@@ -2,6 +2,8 @@ import React, { forwardRef } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
+import { languages } from '../../../localization';
+
 import BottomSheetSelect from '../bottomSheetSelect/BottomSheetSelect';
 import BottomSheetSelectItem from '../bottomSheetSelect/BottomSheetSelectItem';
 
@@ -17,13 +19,10 @@ type LangItem = {
 const LanguageSelect: React.FC<Props> = forwardRef((props, ref) => {
   const { t, i18n } = useTranslation();
 
-  const langs = i18n.options.fallbackLng?.map(
-    (lang: string) =>
-      ({
-        name: t(lang),
-        slug: lang,
-      } as LangItem)
-  );
+  const langs: LangItem[] = languages.map((lang) => ({
+    name: t(lang),
+    slug: lang,
+  }));
 
   return (
     <BottomSheetSelect ref={ref}>
@@ -31,7 +30,7 @@ const LanguageSelect: React.FC<Props> = forwardRef((props, ref) => {
         langs.map((item: LangItem, index: number) => (
           <BottomSheetSelectItem
             item={item.name}
-            isActive={item.slug === i18n.language}
+            isActive={item.slug === i18n.resolvedLanguage}
             onPress={() => i18n.changeLanguage(item.slug)}
             key={index}
           />
@@ -39,5 +38,7 @@ const LanguageSelect: React.FC<Props> = forwardRef((props, ref) => {
     </BottomSheetSelect>
   );
 });
+
+LanguageSelect.displayName = 'LanguageSelect';
 
 export default LanguageSelect;

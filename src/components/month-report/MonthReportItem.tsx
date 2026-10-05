@@ -1,7 +1,7 @@
 import React, { RefObject } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from '@shopify/restyle';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from '@expo/vector-icons/Ionicons';
 import { useDispatch } from 'react-redux';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
@@ -19,7 +19,7 @@ type Props = {
   setReportFormDataEdit: React.Dispatch<
     React.SetStateAction<ReportSaved | undefined>
   >;
-  reportFormRef: RefObject<ReportFormRef>;
+  reportFormRef: RefObject<ReportFormRef | null>;
 };
 
 const MonthReportItem: React.FC<Props> = (props) => {

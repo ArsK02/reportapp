@@ -1,43 +1,51 @@
 import { Asset } from 'expo-asset';
-import React from 'react';
-import { useEffect, useState } from 'react';
-import { Appearance } from 'react-native';
+import * as Font from 'expo-font';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import React, { useEffect, useState } from 'react';
+import { useColorScheme } from 'react-native';
 import AnimatedSplashScreen from './AnimatedSplashScreen';
 
 type Props = {
-  children: JSX.Element;
-  image: string;
+  children: React.ReactNode;
 };
 
-const AnimatedAppLoader: React.FC<Props> = ({ children, image }) => {
+const AnimatedAppLoader: React.FC<Props> = ({ children }) => {
   const [isSplashReady, setSplashReady] = useState(false);
   const [splashUri, setSplashUri] = useState<string | null>(null);
-  const appearanceTheme = Appearance.getColorScheme();
+  const appearanceTheme = useColorScheme();
+  const isDark = appearanceTheme === 'dark';
 
   useEffect(() => {
     async function prepare() {
-      const assets = await Asset.loadAsync(require('../../assets/splash.png'));
-
-      const assetsDark = await Asset.loadAsync(
-        require('../../assets/splash-dark.png')
-      );
-      setSplashUri(
-        appearanceTheme === 'light'
-          ? assets[0].localUri
-          : assetsDark[0].localUri
-      );
-      setSplashReady(true);
+      try {
+        const [[splash]] = await Promise.all([
+          Asset.loadAsync(
+            isDark
+              ? require('../../assets/splash-dark.png')
+              : require('../../assets/splash.png')
+          ),
+          Font.loadAsync(Ionicons.font),
+        ]);
+        setSplashUri(splash.localUri);
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setSplashReady(true);
+      }
     }
 
     prepare();
-  }, [appearanceTheme, image]);
+  }, [isDark]);
 
   if (!isSplashReady) {
     return null;
   }
 
   return (
-    <AnimatedSplashScreen image={splashUri ? splashUri : ''}>
+    <AnimatedSplashScreen
+      image={splashUri ? splashUri : ''}
+      backgroundColor={isDark ? '#000000' : '#ffffff'}
+    >
       {children}
     </AnimatedSplashScreen>
   );

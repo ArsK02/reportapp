@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from '@expo/vector-icons/Ionicons';
 
 import Theme from '../../theme';
 import { useTheme } from '@shopify/restyle';
@@ -12,9 +12,7 @@ import Animated, {
   useAnimatedStyle,
   Easing,
   withTiming,
-  Transition,
-  Transitioning,
-  TransitioningView,
+  ZoomIn,
 } from 'react-native-reanimated';
 
 type Props = {
@@ -37,7 +35,6 @@ const StopWatchButton = forwardRef<StopWatchButtonRef, Props>((props, ref) => {
 
   const [buttonMode, setButtonMode] = useState<StopWatchButtonType>('off');
 
-  const transitionRef = React.useRef<TransitioningView | null>(null);
   const theme = useTheme<Theme>();
 
   const buttonWidth = useSharedValue(
@@ -86,25 +83,18 @@ const StopWatchButton = forwardRef<StopWatchButtonRef, Props>((props, ref) => {
       }}
       style={[styles(theme).button, animation]}
     >
-      <Transitioning.View
-        ref={transitionRef}
-        transition={
-          <Transition.Together>
-            <Transition.Out type="scale" durationMs={100} />
-            <Transition.Change interpolation="easeInOut" />
-            <Transition.In type="scale" durationMs={100} delayMs={50} />
-          </Transition.Together>
-        }
-      >
+      <Animated.View key={buttonMode} entering={ZoomIn.duration(150)}>
         {buttonMode === 'off' ? (
           <Icon name="stopwatch-outline" size={32} color={'#fff'} />
         ) : (
           <Icon name="stop-circle-outline" size={32} color={'#fff'} />
         )}
-      </Transitioning.View>
+      </Animated.View>
     </AnimatedTouchable>
   );
 });
+
+StopWatchButton.displayName = 'StopWatchButton';
 
 export default StopWatchButton;
 

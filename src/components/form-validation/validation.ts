@@ -13,7 +13,7 @@ export const ReportSchema = yup.object().shape({
     .when(['hours', 'specialHours', 'specialMinutes'], {
       is: (hours: number, specialHours: number, specialMinutes: number) =>
         hours === 0 && specialHours === 0 && specialMinutes === 0,
-      then: yup.number().min(1),
+      then: (schema) => schema.min(1),
     }),
   publications: yup.number(),
   videos: yup.number(),

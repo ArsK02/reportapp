@@ -56,3 +56,5 @@ yarn-error.*
 *.tsbuildinfo
 
 # @end expo-cli
+# expo router
+expo-env.d.ts

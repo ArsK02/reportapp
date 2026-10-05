@@ -1,4 +1,4 @@
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from '@expo/vector-icons/Ionicons';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useTheme } from '@shopify/restyle';

@@ -1,25 +1,24 @@
-import { NavigationProp } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTheme } from '@shopify/restyle';
 import { StyleSheet, Text, View, Share, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from '@expo/vector-icons/Ionicons';
 import Theme from '../../theme';
 import { useTranslation } from 'react-i18next';
 import { defaultTemplate } from '../../utils/templates';
 import { ReportRoundedState, ReportStatsMonthView } from '../../models';
 import { doRoundRemainingHours } from '../../store/reports/reportsService';
 import { useDispatch } from 'react-redux';
+import { router } from 'expo-router';
 
 type Props = {
   year: number;
   month: number;
-  navigation?: NavigationProp<any, any>;
   stats: ReportStatsMonthView | null;
 };
 
 const MonthItem: React.FC<Props> = (props) => {
-  const { year, month, navigation, stats } = props;
+  const { year, month, stats } = props;
   const theme = useTheme<Theme>();
   const dispatch = useDispatch();
 
@@ -28,11 +27,9 @@ const MonthItem: React.FC<Props> = (props) => {
   const [canShareReport, setCanShareReport] = useState<boolean>(false);
 
   const onPressToMonthNavigate = (month: number) =>
-    navigation?.navigate('MonthReport', {
-      year: year,
-      month: month,
-      initialDate:
-        new Date().getMonth() === month ? new Date() : new Date(year, month, 1),
+    router.push({
+      pathname: '/month/[year]/[month]',
+      params: { year, month },
     });
 
   const roundMinutes = (
@@ -102,6 +99,8 @@ const MonthItem: React.FC<Props> = (props) => {
   useEffect(() => {
     if (stats && canShareReport) {
       shareReport();
+      // Share only once the store has the rounded stats.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCanShareReport(false);
     }
   }, [stats, canShareReport, shareReport]);
@@ -212,7 +211,6 @@ const styles = (theme: Theme) =>
       flex: 1,
     },
     item: {
-      flex: 1,
       borderRadius: 10,
       paddingLeft: 20,
       paddingRight: 20,

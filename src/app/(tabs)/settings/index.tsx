@@ -9,20 +9,17 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@shopify/restyle';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from '@expo/vector-icons/Ionicons';
+import * as Application from 'expo-application';
+import { router } from 'expo-router';
 
-import { expo } from '../../../app.json';
-import ScreenSafeAreaContainer from '../../components/ScreenSafeAreaContainer';
-import Theme from '../../theme';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import LanguageSelect from '../../components/language/LanguageSelect';
-import ThemeSelect from '../../components/theme/ThemeSelect';
-import { SettingsStackParamList } from './SettingsStack';
+import ScreenSafeAreaContainer from '@/components/ScreenSafeAreaContainer';
+import Theme from '@/theme';
+import LanguageSelect from '@/components/language/LanguageSelect';
+import ThemeSelect from '@/components/theme/ThemeSelect';
+import { IoniconName } from '@/components/icons';
 
-type Props = NativeStackScreenProps<SettingsStackParamList, 'SettingsScreen'>;
-
-const SettingsScreen: React.FC<Props> = (props) => {
-  const { navigation } = props;
+const SettingsScreen: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t, i18n } = useTranslation();
   const theme = useTheme<Theme>();
@@ -39,7 +36,7 @@ const SettingsScreen: React.FC<Props> = (props) => {
             <SettingsNavLink
               text="Synchronization and backups"
               icon="cloud-upload-outline"
-              onPress={() => navigation?.navigate('Backup')}
+              onPress={() => router.push('/settings/backup')}
             />
             <SettingsNavLink
               text="Languages"
@@ -56,14 +53,14 @@ const SettingsScreen: React.FC<Props> = (props) => {
             <SettingsNavLink
               text="Donations"
               icon="heart-outline"
-              onPress={() => navigation?.navigate('Donation')}
+              onPress={() => router.push('/settings/donation')}
             />
           </View>
         </View>
 
         <View style={styles(theme).screenFooter}>
           <TouchableOpacity
-            onPress={() => navigation?.navigate('PrivacyPolicy')}
+            onPress={() => router.push('/settings/privacy-policy')}
             activeOpacity={0.7}
           >
             <Text style={styles(theme).screenFooterText}>
@@ -72,7 +69,8 @@ const SettingsScreen: React.FC<Props> = (props) => {
           </TouchableOpacity>
 
           <Text style={styles(theme).screenFooterText}>
-            {expo.version} ({expo.ios.buildNumber})
+            {Application.nativeApplicationVersion} (
+            {Application.nativeBuildVersion})
           </Text>
         </View>
         <LanguageSelect ref={languageFormRef} />
@@ -84,7 +82,7 @@ const SettingsScreen: React.FC<Props> = (props) => {
 
 type SettingsNavLinkProps = {
   text: string;
-  icon: string;
+  icon: IoniconName;
   onPress: () => void;
 };
 

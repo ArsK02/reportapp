@@ -1,5 +1,5 @@
 import { AppStateStatus, ColorSchemeName } from 'react-native';
-import { Dispatch } from 'redux';
+import { Dispatch } from '@reduxjs/toolkit';
 import { ThemeNames } from '../../theme';
 import { changeAppState, changeAppAppearance, changeTheme } from './appSlice';
 

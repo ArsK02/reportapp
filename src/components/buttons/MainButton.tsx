@@ -1,11 +1,12 @@
 import { useTheme } from '@shopify/restyle';
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from '@expo/vector-icons/Ionicons';
+import { IoniconName } from '../icons';
 import Theme from '../../theme';
 
 type Props = {
-  icon?: string;
+  icon?: IoniconName;
   iconColor?: string;
   onPress: () => void;
   text?: any;

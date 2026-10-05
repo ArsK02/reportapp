@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '@shopify/restyle';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from '@expo/vector-icons/Ionicons';
 
 import Theme from '../../theme';
 import { useTranslation } from 'react-i18next';

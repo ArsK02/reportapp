@@ -1,10 +1,13 @@
 import React from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
-import { Edge, SafeAreaView } from 'react-native-safe-area-context';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  Edge,
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 
 type Props = {
-  children?: JSX.Element | JSX.Element[];
+  children?: React.ReactNode;
   scrollContainer?: any;
   paddingHorizontal?: any;
   disableSafeAreaEdges?: Edge[];

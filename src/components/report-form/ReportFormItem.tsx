@@ -8,7 +8,8 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from '@expo/vector-icons/Ionicons';
+import { IoniconName } from '../icons';
 import DateTimePicker, {
   DateTimePickerAndroid,
 } from '@react-native-community/datetimepicker';
@@ -20,7 +21,7 @@ import { dateToLocale } from '../../utils/date';
 type Props = {
   type: 'number' | 'date' | 'string';
   title: string;
-  icon?: string;
+  icon?: IoniconName;
   value: number | Date | string;
   onChange: (e: any) => void;
   diffOnChange?: number;

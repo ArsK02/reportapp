@@ -2,10 +2,11 @@ import { useTheme } from '@shopify/restyle';
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import Theme from '../theme';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from '@expo/vector-icons/Ionicons';
+import { IoniconName } from './icons';
 
 type Props = {
-  icon?: string;
+  icon?: IoniconName;
   text: string;
   color?: string;
   textColor?: string;

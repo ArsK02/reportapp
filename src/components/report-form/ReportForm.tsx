@@ -92,6 +92,8 @@ const ReportForm = forwardRef<ReportFormRef, Props>((props, ref) => {
     isValid,
   } = useFormik({
     validationSchema: ReportSchema,
+    // Validate the empty form up front so the submit button starts disabled.
+    validateOnMount: true,
     initialValues: {
       title: '',
       date: new Date().toISOString(),
@@ -148,7 +150,6 @@ const ReportForm = forwardRef<ReportFormRef, Props>((props, ref) => {
         setFieldValue('specialHours', report.specialHours);
         setFieldValue('specialMinutes', report.specialMinutes);
       } else {
-        ReportSchema.fields.date.max(new Date());
         setFieldValue('title', '');
         setFieldValue('date', initialDate.toISOString());
         setFieldValue('hours', 0);
@@ -319,7 +320,7 @@ const ReportForm = forwardRef<ReportFormRef, Props>((props, ref) => {
               onPress={() => {
                 handleSubmit();
               }}
-              disabled={formMode === 'create' ?? !isValid}
+              disabled={formMode === 'create' && !isValid}
               marginLeft
             />
           </View>
@@ -330,6 +331,8 @@ const ReportForm = forwardRef<ReportFormRef, Props>((props, ref) => {
     </>
   );
 });
+
+ReportForm.displayName = 'ReportForm';
 
 export default ReportForm;
 

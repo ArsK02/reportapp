@@ -4,7 +4,7 @@ import {
   BottomSheetBackdrop,
   BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
-import { Platform } from 'react-native';
+import { Platform, StyleProp, ViewStyle } from 'react-native';
 import { useTheme } from '@shopify/restyle';
 
 import Theme from '../theme';
@@ -19,10 +19,11 @@ type Props = {
   detached?: boolean;
   keyboardBlurBehavior?: 'none' | 'restore';
   android_keyboardInputMode?: 'adjustPan' | 'adjustResize';
+  style?: StyleProp<ViewStyle>;
 };
 
 const BottomSheetModalComp: React.FC<Props> = (props) => {
-  const { innerRef, snapPoints, containerStyle, children } = props;
+  const { innerRef, snapPoints, containerStyle, children, ...rest } = props;
   const theme = useTheme<Theme>();
 
   const renderBackdrop = useCallback(
@@ -47,7 +48,8 @@ const BottomSheetModalComp: React.FC<Props> = (props) => {
       enablePanDownToClose
       enableContentPanningGesture={Platform.OS === 'android' ? false : true}
       backdropComponent={renderBackdrop}
-      {...props}
+      containerStyle={containerStyle}
+      {...rest}
     >
       <BottomSheetScrollView contentContainerStyle={[containerStyle]}>
         {children}

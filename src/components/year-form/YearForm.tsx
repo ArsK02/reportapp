@@ -11,8 +11,8 @@ import BottomSheetModalComp from '../BottomSheetModalComp';
 import MainButton from '../buttons/MainButton';
 import SelectYearButton from '../buttons/SelectYearButton';
 import WheelPicker from 'react-native-wheely';
-import { Theme } from '@react-navigation/native';
 import { useTheme } from '@shopify/restyle';
+import Theme from '../../theme';
 import { useSelector } from 'react-redux';
 import { selectMinYear } from '../../store/reports/reportsSelectors';
 
@@ -42,6 +42,8 @@ const YearForm: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
+    // The list of years changes with minYear, so reset to the current year.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSelectedIndex(0);
   }, [minYear]);
 

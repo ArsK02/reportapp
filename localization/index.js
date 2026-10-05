@@ -19,6 +19,8 @@ const resources = {
   uk: uk,
 };
 
+export const languages = Object.keys(resources);
+
 const setStorageLang = async (lang) => {
   try {
     await AsyncStorage.setItem('@appLang', lang);
@@ -35,7 +37,7 @@ const LanguageDetector = {
       if (lang) {
         callback(lang);
       } else {
-        callback(Localization.locale);
+        callback(Localization.getLocales()[0]?.languageTag);
       }
     });
   },
@@ -51,8 +53,7 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: ['en', 'es', 'ru', 'uk'],
-    compatibilityJSON: 'v3',
+    fallbackLng: languages,
     resources,
     keySeparator: false,
     react: {

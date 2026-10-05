@@ -19,7 +19,10 @@
       "preview": {
         "distribution": "internal"
       },
-      "production": {}
+      "production": {
+        "autoIncrement": true,
+        "environment": "production"
+      }
     }
   }
   

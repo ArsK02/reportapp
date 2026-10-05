@@ -1,9 +1,9 @@
 {
   "expo": {
     "name": "Report App",
-    "slug": "reportapp",
-    "version": "1.2.0",
-    "owner": "reportapp",
+    "slug": "report-app",
+    "version": "2.0.0",
+    "owner": "Arsen Kylnyk",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -26,7 +26,6 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.reportapp.app",
-      "buildNumber": "3",
       "splash": {
         "image": "./assets/splash.png",
         "resizeMode": "contain",
@@ -44,7 +43,7 @@
       }
     },
     "android": {
-      "versionCode": 1203,
+      "versionCode": 20001,
       "package": "com.reportapp.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -62,7 +61,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "63c87908-edcf-4dc2-892a-a055ad7f3ce8"
+        "projectId": "31b49a0c-2ac6-402f-a627-c7789185b919"
       }
     },
     "plugins": [

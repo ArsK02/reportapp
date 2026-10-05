@@ -47,14 +47,15 @@ const RootNavigator = () => {
 export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <AnimatedAppLoader>
-        <Provider store={store}>
-          <PersistGate persistor={persistor} loading={null}>
+      <Provider store={store}>
+        {/* The native splash stays up until the store has rehydrated. */}
+        <PersistGate persistor={persistor} loading={null}>
+          <AnimatedAppLoader>
             <LogicCore />
             <RootNavigator />
-          </PersistGate>
-        </Provider>
-      </AnimatedAppLoader>
+          </AnimatedAppLoader>
+        </PersistGate>
+      </Provider>
     </GestureHandlerRootView>
   );
 }

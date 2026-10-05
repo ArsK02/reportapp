@@ -83,7 +83,7 @@ const StopWatchButton = forwardRef<StopWatchButtonRef, Props>((props, ref) => {
       }}
       style={[styles(theme).button, animation]}
     >
-      <Animated.View key={buttonMode} entering={ZoomIn.duration(100).delay(50)}>
+      <Animated.View key={buttonMode} entering={ZoomIn.duration(150)}>
         {buttonMode === 'off' ? (
           <Icon name="stopwatch-outline" size={32} color={'#fff'} />
         ) : (

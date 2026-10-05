@@ -38,7 +38,6 @@
     "formik": "^2.4.9",
     "i18next": "^26.4.2",
     "lottie-react-native": "~7.3.8",
-    "playwright-core": "^1.63.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-i18next": "^17.0.15",
@@ -55,7 +54,6 @@
     "react-native-worklets": "0.10.1",
     "react-redux": "^9.3.0",
     "redux-persist": "^6.0.0",
-    "serve-handler": "^6.1.7",
     "yup": "^1.7.1"
   },
   "devDependencies": {
@@ -68,9 +66,5 @@
     "prettier": "^3.0.0",
     "typescript": "~6.0.3"
   },
-  "private": true,
-  "description": "",
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "private": true
 }

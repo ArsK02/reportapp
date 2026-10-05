@@ -1,9 +1,15 @@
 import { useTheme } from '@shopify/restyle';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, FlatList, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocalSearchParams } from 'expo-router';
+import { Redirect, useLocalSearchParams } from 'expo-router';
 
 import MonthReportItem from '@/components/month-report/MonthReportItem';
 import ReportForm, { ReportFormRef } from '@/components/report-form/ReportForm';
@@ -16,14 +22,27 @@ import {
 } from '@/store/reports/reportsSelectors';
 import { doPassRemainingHours } from '@/store/reports/reportsService';
 import Theme from '@/theme';
+import { parseYearMonth } from '@/utils/date';
 
 const MonthReportScreen: React.FC = () => {
   const params = useLocalSearchParams<{ year: string; month: string }>();
+  const parsed = parseYearMonth(params.year, params.month);
 
+  // Guard against malformed deep links such as reportapp://month/foo/bar.
+  if (!parsed) {
+    return <Redirect href="/" />;
+  }
+
+  return <MonthReport year={parsed.year} month={parsed.month} />;
+};
+
+type MonthReportProps = {
+  year: number;
+  month: number;
+};
+
+const MonthReport: React.FC<MonthReportProps> = ({ year, month }) => {
   const dispatch = useDispatch();
-
-  const year = Number(params.year);
-  const month = Number(params.month);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [t, i18n] = useTranslation();
@@ -32,13 +51,22 @@ const MonthReportScreen: React.FC = () => {
 
   const [reportFormDataEdit, setReportFormDataEdit] = useState<ReportSaved>();
 
-  const reportsByMonth = useSelector(selectReportsByMonthView(year, month));
-  const minutesPassedAlertData = useSelector(
-    selectMinutesPassedAlert(
-      month === 0 ? year - 1 : year,
-      month === 0 ? 11 : month - 1
-    )
+  // Memoize the selector instances so their results stay referentially
+  // stable between renders (the transfer alert effect depends on them).
+  const reportsByMonthSelector = useMemo(
+    () => selectReportsByMonthView(year, month),
+    [year, month]
   );
+  const minutesPassedAlertSelector = useMemo(
+    () =>
+      selectMinutesPassedAlert(
+        month === 0 ? year - 1 : year,
+        month === 0 ? 11 : month - 1
+      ),
+    [year, month]
+  );
+  const reportsByMonth = useSelector(reportsByMonthSelector);
+  const minutesPassedAlertData = useSelector(minutesPassedAlertSelector);
 
   const theme = useTheme<Theme>();
 
@@ -66,6 +94,7 @@ const MonthReportScreen: React.FC = () => {
     if (
       reportsByMonth.reportsByDays.length === 0 &&
       minutesPassedAlertData.minutesPassed > 0 &&
+      year === new Date().getFullYear() &&
       month === new Date().getMonth()
     ) {
       Alert.alert(
@@ -85,7 +114,7 @@ const MonthReportScreen: React.FC = () => {
         ]
       );
     }
-  }, [reportsByMonth, minutesPassedAlertData, month, passHours, i18n]);
+  }, [reportsByMonth, minutesPassedAlertData, year, month, passHours, i18n]);
 
   return (
     <ScreenSafeAreaContainer

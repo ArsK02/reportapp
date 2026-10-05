@@ -47,24 +47,32 @@ export default function TabsLayout() {
           elevation: 0,
           borderRadius: 10,
           height: 58,
-          paddingVertical: 8,
-          // The tab bar sets its own paddingTop, which wins over paddingVertical.
+          // paddingBottom is set by the tab bar from the safe area insets.
           paddingTop: 8,
           paddingHorizontal: 8,
         },
       })}
     >
-      <Tabs.Screen name="(home)" />
-      <Tabs.Screen name="settings" />
+      <Tabs.Screen name="(home)" options={{ title: 'Home' }} />
+      <Tabs.Screen name="settings" options={{ title: 'Settings' }} />
     </Tabs>
   );
 }
 
 const CustomTabBarButton: React.FC<BottomTabBarButtonProps> = (props) => {
-  const { onPress, children, accessibilityState, testID } = props;
+  const {
+    onPress,
+    onLongPress,
+    children,
+    accessibilityLabel,
+    accessibilityState,
+    testID,
+  } = props;
   return (
     <Pressable
       onPress={onPress}
+      onLongPress={onLongPress}
+      accessibilityLabel={accessibilityLabel}
       style={styles.customTabBarButton}
       accessibilityRole="tab"
       accessibilityState={accessibilityState}

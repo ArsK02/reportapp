@@ -92,6 +92,8 @@ const ReportForm = forwardRef<ReportFormRef, Props>((props, ref) => {
     isValid,
   } = useFormik({
     validationSchema: ReportSchema,
+    // Validate the empty form up front so the submit button starts disabled.
+    validateOnMount: true,
     initialValues: {
       title: '',
       date: new Date().toISOString(),

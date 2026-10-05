@@ -2,7 +2,7 @@ import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useEffect, useState } from 'react';
-import { useColorScheme } from 'react-native';
+import { Appearance } from 'react-native';
 import AnimatedSplashScreen from './AnimatedSplashScreen';
 
 type Props = {
@@ -12,8 +12,8 @@ type Props = {
 const AnimatedAppLoader: React.FC<Props> = ({ children }) => {
   const [isSplashReady, setSplashReady] = useState(false);
   const [splashUri, setSplashUri] = useState<string | null>(null);
-  const appearanceTheme = useColorScheme();
-  const isDark = appearanceTheme === 'dark';
+  // Read once: the splash is only shown at startup.
+  const [isDark] = useState(() => Appearance.getColorScheme() === 'dark');
 
   useEffect(() => {
     async function prepare() {
